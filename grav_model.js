@@ -369,15 +369,24 @@ GravModel.prototype.printReport = function(DATA, centralID, idsToOutput) {
 	for(let i = 0; i < N_DATA_ROWS; i++) {
 		const CR = DATA[i].coords
 		const t = DATA[i].t
-		str += `t: ${t.toFixed(3)} s |`
+		str = `${t.toFixed(3)}\t`
 		for(let j = 0; j < nOutputObjs; j++) {
 			const outObj = outputData[j]
 			outObj.getRelativeData(CR)
-			const V = outObj.velocity.abs()
-			const H = outObj.coordinates.abs()
-			str += `V: ${V.toFixed(4)} | H: ${((H - 6.3711E+6) * 1E-3).toFixed(1)} |`
+			
+			str += ([
+				outObj.velocity[0].toFixed(2),
+				outObj.velocity[1].toFixed(2),
+				outObj.velocity[2].toFixed(2),
+				outObj.coordinates[0].toFixed(1),
+				outObj.coordinates[1].toFixed(1),
+				outObj.coordinates[2].toFixed(1),
+			].join('\t') + '\t')
+			//const V = outObj.velocity.abs()
+			//const H = outObj.coordinates.abs()
+			//str += `\t${V.toFixed(4)}\t${((H - 6.3711E+6) * 1E-3).toFixed(1)}`
 		}
-		result += `${str}\n`
+		result += `${str.replace(/\./g, ',')}\n`
 		str = ''
 	}
 
